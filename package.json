@@ -1,0 +1,35 @@
+{
+  "name": "istanbul-combine",
+  "version": "0.0.1",
+  "description": "easily merge coverage data from multiple istanbul runs",
+  "main": "index.js",
+  "scripts": {
+    "test": "rm -rf coverage && npm run test-a && npm run test-b && node ./fixture/combine.js",
+    "test-a": "FIXTURE_BRANCH=a istanbul cover --print none --report json --dir coverage/a _mocha",
+    "test-b": "FIXTURE_BRANCH=b istanbul cover --print none --report json --dir coverage/b _mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jamestalmage/istanbul-combine.git"
+  },
+  "keywords": [
+    "istanbul",
+    "test",
+    "coverage",
+    "report"
+  ],
+  "author": "James Talmage <james@talmage.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jamestalmage/istanbul-combine/issues"
+  },
+  "homepage": "https://github.com/jamestalmage/istanbul-combine",
+  "dependencies": {
+    "glob": "^5.0.3",
+    "q": "^1.2.0"
+  },
+  "devDependencies": {
+    "istanbul": "^0.3.13",
+    "mocha": "^2.2.4"
+  }
+}
