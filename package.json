@@ -24,7 +24,7 @@
     "url": "https://github.com/jamestalmage/istanbul-combine/issues"
   },
   "homepage": "https://github.com/jamestalmage/istanbul-combine",
-  "bin:": "./cli.js",
+  "bin": "./cli.js",
   "dependencies": {
     "glob": "^5.0.3",
     "minimist": "^1.1.1",
