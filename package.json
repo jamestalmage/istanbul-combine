@@ -1,6 +1,6 @@
 {
   "name": "istanbul-combine",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "easily merge coverage data from multiple istanbul runs",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "glob": "^5.0.3",
     "q": "^1.2.0"
   },
-  "peerDependencies":{
+  "peerDependencies": {
     "istanbul": "0.3.x"
   },
   "devDependencies": {
