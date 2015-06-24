@@ -68,30 +68,78 @@ function writeCombinedReportsSync(reporterDefs, collector) {
 }
 
 function collectInputReports(pattern) {
+  var realpathCache = Object.create(null);
+  var cache = Object.create(null);
+  var statCache = Object.create(null);
+  var symlinks = Object.create(null);
+
   var collector = new Collector();
   var fileContentPromises = [];
+  var filePaths = Object.create(null);
   var collectorDefer = Q.defer();
+  var allPatterns = [];
 
-  glob(pattern)
-    .on('match', function(filePath) {
-      fileContentPromises.push(readFile(filePath,'utf-8').then(function(fileContents){
-        collector.add(JSON.parse(fileContents));
-        return true;
-      }));
-    })
-    .on('error', collectorDefer.reject)
-    .on('end', function() {
-      Q.all(fileContentPromises).then(function(){
-        collectorDefer.resolve(collector);
-      });
+  if (typeof pattern == 'string') {
+    pattern = [pattern];
+  }
+  for (var i = 0; i < pattern.length; i++) {
+    allPatterns.push(makePromiseForPattern(pattern[i]));
+  }
+
+  Q.all(allPatterns).then(function(){
+    Q.all(fileContentPromises).then(function(){
+      collectorDefer.resolve(collector);
     });
+  });
+
   return collectorDefer.promise;
+
+  function makePromiseForPattern(pattern) {
+    var patternDefer = Q.defer();
+    glob(pattern,
+      {
+        realpathCache: realpathCache,
+        cache: cache,
+        statCache: statCache,
+        symlinks: symlinks
+      })
+      .on('match', function(filePath) {
+        if(filePaths[filePath]) {
+          return;
+        }
+        filePaths[filePath] = true;
+        fileContentPromises.push(readFile(filePath, 'utf-8').then(function(fileContents){
+          collector.add(JSON.parse(fileContents));
+          return true;
+        }));
+      })
+      .on('error', collectorDefer.reject)
+      .on('end', function() {
+        patternDefer.resolve(pattern);
+      });
+
+    return patternDefer.promise;
+  }
 }
 
 function collectInputReportsSync(pattern){
+  var realpathCache = Object.create(null);
+  var cache = Object.create(null);
+  var statCache = Object.create(null);
+  var symlinks = Object.create(null);
+  if ('string' === typeof pattern) {
+    pattern = [pattern];
+  }
   var collector = new Collector();
-  glob.sync(pattern).forEach(function(file){
-    collector.add(JSON.parse(fs.readFileSync(file, 'utf-8')));
+  pattern.forEach(function(pattern){
+    glob.sync(pattern,{
+      realpathCache: realpathCache,
+      cache: cache,
+      statCache: statCache,
+      symlinks: symlinks
+    }).forEach(function(file){
+      collector.add(JSON.parse(fs.readFileSync(file, 'utf-8')));
+    });
   });
   return collector;
 }
