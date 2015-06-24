@@ -28,9 +28,7 @@
   "dependencies": {
     "glob": "^5.0.3",
     "minimist": "^1.1.1",
-    "q": "^1.2.0"
-  },
-  "peerDependencies": {
+    "q": "^1.2.0",
     "istanbul": "0.3.x"
   },
   "devDependencies": {
