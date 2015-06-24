@@ -26,7 +26,7 @@ combine(opts).then(/* ... */ );           // async with promise return value
 combine.sync(opts);                       // synchronous
 ```
 
-There is also a command line option:
+### command line
 
 ```
 npm install -g istanbul-combine
