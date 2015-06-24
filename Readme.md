@@ -25,3 +25,24 @@ combine(opts, function(err) { });         // async with node style completion ca
 combine(opts).then(/* ... */ );           // async with promise return value
 combine.sync(opts);                       // synchronous
 ```
+
+There is also a command line option:
+
+```
+npm install -g istanbul-combine
+
+istanbul-combine -d coverage -p summary -r lcov -r html coverage/coverage-a.json coverage/coverage-b.json /coverage/*.json
+```
+
+usage: `istanbul-combine [options] patterns`
+
+where `patterns` is any number of file glob-patterns separated by whitespace
+
+options:
+
+ * `-d` : output directory for the report(s). Defaults to `coverage`
+ * `-p` : what to print to the console. `summary` | `detail` | `both` | `none`. Defaults to `summary`.
+ * `-r` : a reporter. `lcov`, `html`, etc. You can specify multiple reporters by using this tag multiple times.
+
+
+
