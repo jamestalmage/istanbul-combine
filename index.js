@@ -4,6 +4,7 @@ var Q = require('q');
 var readFile = Q.denodeify(fs.readFile);
 var Report = require('istanbul').Report;
 var Collector = require('istanbul').Collector;
+var path = require('path');
 
 function makeReporterDefs(options) {
   var result = [];
@@ -67,7 +68,7 @@ function writeCombinedReportsSync(reporterDefs, collector) {
   });
 }
 
-function collectInputReports(pattern) {
+function collectInputReports(pattern, base) {
   var realpathCache = Object.create(null);
   var cache = Object.create(null);
   var statCache = Object.create(null);
@@ -109,7 +110,7 @@ function collectInputReports(pattern) {
         }
         filePaths[filePath] = true;
         fileContentPromises.push(readFile(filePath, 'utf-8').then(function(fileContents){
-          collector.add(JSON.parse(fileContents));
+          collector.add(fixRelativePaths(JSON.parse(fileContents), base));
           return true;
         }));
       })
@@ -122,7 +123,7 @@ function collectInputReports(pattern) {
   }
 }
 
-function collectInputReportsSync(pattern){
+function collectInputReportsSync(pattern, base){
   var realpathCache = Object.create(null);
   var cache = Object.create(null);
   var statCache = Object.create(null);
@@ -138,7 +139,8 @@ function collectInputReportsSync(pattern){
       statCache: statCache,
       symlinks: symlinks
     }).forEach(function(file){
-      collector.add(JSON.parse(fs.readFileSync(file, 'utf-8')));
+      var jsonReport = JSON.parse(fs.readFileSync(file, 'utf-8'));
+      collector.add(fixRelativePaths(jsonReport, base));
     });
   });
   return collector;
@@ -148,13 +150,14 @@ function normalizeOpts(opts) {
   opts = opts || {};
   if (!opts.dir) opts.dir = 'coverage';
   if (!opts.pattern) opts.pattern = 'coverage/*-coverage.json';
+  if (!opts.base) opts.base = process.cwd();
   return opts;
 }
 
 function run(opts, done) {
   opts = normalizeOpts(opts);
   var reporters = makeReporterDefs(opts);
-  var promise = collectInputReports(opts.pattern).then(
+  var promise = collectInputReports(opts.pattern, opts.base).then(
     function(collector) {
       return writeCombinedReports(reporters, collector);
     }
@@ -165,8 +168,30 @@ function run(opts, done) {
 function sync(opts) {
   opts = normalizeOpts(opts);
   var reporters = makeReporterDefs(opts);
-  var collector = collectInputReportsSync(opts.pattern);
+  var collector = collectInputReportsSync(opts.pattern, opts.base);
   writeCombinedReportsSync(reporters, collector);
+}
+
+function fixRelativePaths(obj, base) {
+  var copy = {};
+  for (var i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      var child = obj[i];
+      if (child.path) {
+        child.path = fixPath(child.path, base);
+      }
+      copy[fixPath(i, base)] = child;
+    }
+  }
+  return copy;
+}
+
+function fixPath(filePath, base) {
+  filePath = path.normalize(filePath);
+  if (path.resolve(filePath) === filePath) {
+    return filePath;
+  }
+  return path.resolve(process.cwd(), base, filePath);
 }
 
 module.exports = run;

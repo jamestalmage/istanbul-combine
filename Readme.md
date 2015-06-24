@@ -15,6 +15,7 @@ var opts = {
   dir: 'coverage',                       // output directory for combined report(s)
   pattern: 'coverage/*-coverage.json',   // json reports to be combined 
   print: 'summary',                      // print to the console (summary, detail, both, none) 
+  base:'sources',                        // base directory for resolving absolute paths, see karma bug
   reporters: {
     html: { /* html reporter options */ },
     cobertura: { /* etc. */ }
@@ -43,6 +44,10 @@ options:
  * `-d` : output directory for the report(s). Defaults to `coverage`
  * `-p` : what to print to the console. `summary` | `detail` | `both` | `none`. Defaults to `summary`.
  * `-r` : a reporter. `lcov`, `html`, etc. You can specify multiple reporters by using this tag multiple times.
+ * `-b` : base directory resolving relative paths to absolute ones. Fixes a bug with where karma reports relative file paths.
 
+#### karma bug
 
-
+You will need to use the `base` or `-b` option if you intend to combine reports generated using `karma-coverage` with
+reports generated using other tools (i.e. tests not run in the browser).
+See [this pull request](https://github.com/karma-runner/karma-coverage/pull/163).

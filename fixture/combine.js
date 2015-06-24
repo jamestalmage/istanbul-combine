@@ -2,7 +2,8 @@ require('../')(
   {
     pattern:'coverage/*/coverage-final.json',
     reporters:{
-      html:{}
+      html:{},
+      json:{}
     }
   },
   function(err){
@@ -16,7 +17,8 @@ console.log("*********STARTING SYNC**************");
 require('../').sync({
   pattern:'coverage/*/coverage-final.json',
   reporters:{
-    html:{}
+    html:{},
+    json:{}
   }
 });
 console.log("***********SYNC COMPLETE**************");
