@@ -1,6 +1,6 @@
 {
   "name": "istanbul-combine",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "easily merge coverage data from multiple istanbul runs",
   "main": "index.js",
   "scripts": {
