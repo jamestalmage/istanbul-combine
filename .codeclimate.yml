@@ -1,0 +1,17 @@
+---
+engines:
+  requiresafe:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      - javascript
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "**.js"
+exclude_paths:
+- test/**/*
