@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "rm -rf coverage && npm run test-a && npm run test-b && node ./fixture/combine.js",
+    "coverage": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls",
     "test-a": "FIXTURE_BRANCH=a istanbul cover --print none --report json --dir coverage/a _mocha",
     "test-b": "FIXTURE_BRANCH=b istanbul cover --print none --report json --dir coverage/b _mocha"
   },
@@ -32,6 +33,7 @@
     "istanbul": "0.4.x"
   },
   "devDependencies": {
+    "coveralls": "^2.11.6",
     "mocha": "^2.2.4"
   }
 }
