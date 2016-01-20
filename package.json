@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "rm -rf coverage && npm run test-a && npm run test-b && node ./fixture/combine.js",
+    "coverage": "istanbul cover _mocha && cat ./coverage/lcov.info | coveralls",
     "test-a": "FIXTURE_BRANCH=a istanbul cover --print none --report json --dir coverage/a _mocha",
     "test-b": "FIXTURE_BRANCH=b istanbul cover --print none --report json --dir coverage/b _mocha"
   },
@@ -26,12 +27,13 @@
   "homepage": "https://github.com/jamestalmage/istanbul-combine",
   "bin": "./cli.js",
   "dependencies": {
-    "glob": "^5.0.3",
+    "glob": "^6.0.4",
     "minimist": "^1.1.1",
     "q": "^1.2.0",
-    "istanbul": "0.3.x"
+    "istanbul": "0.4.x"
   },
   "devDependencies": {
+    "coveralls": "^2.11.6",
     "mocha": "^2.2.4"
   }
 }

@@ -2,7 +2,10 @@ istanbul-combine
 ================
 Combine coverage reports from multiple runs in to a single coverage report.
 
+[![Npm Version](https://img.shields.io/npm/v/istanbul-combine.svg)](https://npmjs.com/package/istanbul-combine)
 [![Build Status](https://travis-ci.org/jamestalmage/istanbul-combine.svg?branch=master)](https://travis-ci.org/jamestalmage/istanbul-combine)
+[![Coverage Status](https://coveralls.io/repos/jamestalmage/istanbul-combine/badge.svg?branch=master&service=github)](https://coveralls.io/github/jamestalmage/istanbul-combine?branch=master)
+[![Code Quality](https://codeclimate.com/github/jamestalmage/istanbul-combine/badges/gpa.svg)](https://codeclimate.com/github/jamestalmage/istanbul-combine)
 
 [![peerDependency Status](https://david-dm.org/jamestalmage/istanbul-combine/peer-status.svg)](https://david-dm.org/jamestalmage/istanbul-combine#info=peerDependencies)
 [![Dependency Status](https://david-dm.org/jamestalmage/istanbul-combine.svg)](https://david-dm.org/jamestalmage/istanbul-combine)
