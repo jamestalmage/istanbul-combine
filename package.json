@@ -29,7 +29,7 @@
     "glob": "^5.0.3",
     "minimist": "^1.1.1",
     "q": "^1.2.0",
-    "istanbul": "0.3.x"
+    "istanbul": "0.4.x"
   },
   "devDependencies": {
     "mocha": "^2.2.4"
